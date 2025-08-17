@@ -1,1 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Outfit Oracle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./styles/main.css" />
+  <meta name="color-scheme" content="light dark">
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 min-h-screen">
+  <header class="sticky top-0 z-20 bg-white/70 dark:bg-slate-900/70 backdrop-blur border-b border-slate-200 dark:border-slate-800">
+    <div class="mx-auto max-w-3xl px-4 py-3 flex items-center justify-between">
+      <h1 class="font-semibold tracking-tight text-lg">Outfit Oracle</h1>
+      <div class="flex items-center gap-2">
+        <button id="btn-settings" class="rounded-md px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">Settings</button>
+        <button id="btn-export" class="rounded-md px-3 py-1.5 text-sm border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">Export</button>
+        <button id="btn-reset" class="rounded-md px-3 py-1.5 text-sm border border-rose-300 dark:border-rose-700 hover:bg-rose-50 dark:hover:bg-rose-900/30">Reset</button>
+      </div>
+    </div>
+  </header>
 
+  <main class="mx-auto max-w-3xl px-4 py-6 space-y-6">
+
+    <!-- Progress -->
+    <nav id="steps" class="flex items-center justify-between text-xs text-slate-500">
+      <div data-step="1" class="step-dot step-active">1. Consent</div>
+      <div class="flex-1 border-t mx-2 border-slate-200 dark:border-slate-800"></div>
+      <div data-step="2" class="step-dot">2. Weather</div>
+      <div class="flex-1 border-t mx-2 border-slate-200 dark:border-slate-800"></div>
+      <div data-step="3" class="step-dot">3. Pick an image</div>
+      <div class="flex-1 border-t mx-2 border-slate-200 dark:border-slate-800"></div>
+      <div data-step="4" class="step-dot">4. Result</div>
+    </nav>
+
+    <!-- STEP 1: Consent -->
+    <section id="section-intro" class="rounded-xl border border-slate-200 dark:border-slate-800 p-4 md:p-6">
+      <h2 class="text-xl font-semibold">What we’ll use (your choice)</h2>
+      <p class="text-sm mt-1 text-slate-600 dark:text-slate-400">
+        Runs locally in your browser. No server. Some features need permission (battery, location).
+      </p>
+      <div id="consent-row" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+      <div class="mt-4 flex justify-end">
+        <button id="btn-start" class="rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 font-medium hover:opacity-90">Continue</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Weather -->
+    <section id="section-weather" class="hidden rounded-xl border border-slate-200 dark:border-slate-800 p-4 md:p-6">
+      <div class="flex items-center justify-between gap-3">
+        <h3 class="font-semibold">Today’s Weather</h3>
+        <div class="flex items-center gap-2">
+          <button id="btn-use-geo" class="text-sm rounded-md border px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-800">Use my location</button>
+          <div class="flex items-center gap-1">
+            <input id="city-input" class="text-sm rounded-md border px-3 py-1.5 bg-white dark:bg-slate-800 w-40" placeholder="City…" />
+            <button id="btn-city-search" class="text-sm rounded-md border px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-800">Search</button>
+          </div>
+        </div>
+      </div>
+      <div id="weather-readout" class="mt-3 text-sm text-slate-700 dark:text-slate-300">No weather yet.</div>
+      <div class="mt-4 flex justify-end">
+        <button id="btn-weather-next" class="rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 font-medium hover:opacity-90">Next</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: Images -->
+    <section id="section-images" class="hidden rounded-xl border border-slate-200 dark:border-slate-800 p-4 md:p-6">
+      <div class="flex items-center justify-between">
+        <h3 class="font-semibold">Pick one image</h3>
+        <button id="btn-shuffle" class="text-sm rounded-md border px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-800">Shuffle</button>
+      </div>
+      <div id="image-grid" class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+      <div id="img-debug" class="text-xs text-slate-500 mt-2"></div>
+    </section>
+
+    <!-- STEP 4: Result -->
+    <section id="section-result" class="hidden rounded-xl border border-slate-200 dark:border-slate-800 p-4 md:p-6">
+      <h3 class="font-semibold">Recommendation</h3>
+      <div id="rec-card" class="mt-3"></div>
+      <div class="mt-4">
+        <h4 class="font-semibold">Why</h4>
+        <div id="why-card" class="mt-2 text-sm text-slate-700 dark:text-slate-300"></div>
+        <h5 class="font-semibold text-sm mt-3">Palette</h5>
+        <div id="palette-row" class="mt-2 flex gap-2"></div>
+      </div>
+      <div class="mt-6 flex gap-3">
+        <button id="btn-try-again" class="rounded-lg border border-slate-300 dark:border-slate-700 px-4 py-2 font-medium hover:bg-slate-100 dark:hover:bg-slate-800">Try again</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Settings modal -->
+  <dialog id="settings-modal" class="backdrop:bg-black/50 rounded-xl p-0">
+    <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-lg w-[92vw]">
+      <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <h4 class="font-semibold">Settings</h4>
+        <button id="close-settings" class="text-sm px-2 py-1 rounded hover:bg-slate-100 dark:hover:bg-slate-800">Close</button>
+      </div>
+      <div class="p-5 space-y-4">
+        <div id="settings-toggles" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        <div class="text-xs text-slate-500">ML image tags are optional. If they fail under lockdown, we fall back to color analysis.</div>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="./scripts/app.js"></script>
+</body>
+</html>
